@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 
@@ -20,34 +20,41 @@ const userIcon = L.divIcon({
   iconAnchor: [9, 9],
 });
 
-export default function UserLocation() {
-  const [position, setPosition] =
-    useState<[number, number] | null>(null);
+type Props = {
+  userLocation: [number, number] | null;
+  setUserLocation: React.Dispatch<
+    React.SetStateAction<[number, number] | null>
+  >;
+};
 
+export default function UserLocation({
+  userLocation,
+  setUserLocation,
+}: Props) {
   const map = useMap();
 
   useEffect(() => {
     if (!navigator.geolocation) return;
 
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const coords: [number, number] = [
+        pos.coords.latitude,
+        pos.coords.longitude,
+      ];
 
-        setPosition([lat, lng]);
+      setUserLocation(coords);
 
-        map.flyTo([lat, lng], 17);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }, [map]);
+      map.flyTo(coords, 17);
+    });
+  }, [map, setUserLocation]);
 
-  if (!position) return null;
+  if (!userLocation) return null;
 
   return (
-    <Marker position={position} icon={userIcon}>
+    <Marker
+      position={userLocation}
+      icon={userIcon}
+    >
       <Popup>
         📍 You are here
       </Popup>
