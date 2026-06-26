@@ -5,6 +5,9 @@ import "leaflet-defaulticon-compatibility";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import { Location } from "../types/location";
+import { getMarkerIcon } from "./MarkerIcon";
+import MapLegend from "./MapLegend";
+import UserLocation from "./UserLocation";
 
 import {
   MapContainer,
@@ -56,8 +59,9 @@ export default function CampusMap({
 
       {locations.map((location) => (
         <Marker
-          key={location.id}
-          position={[location.lat, location.lng]}
+        key={location.id}
+        position={[location.lat, location.lng]}
+        icon={getMarkerIcon(location.category)}
         >
           <Popup>
             <strong>{location.name}</strong>
@@ -69,7 +73,9 @@ export default function CampusMap({
       <FlyToLocation
   location={selectedLocation}
 />
+<UserLocation />
     </MapContainer>
+    <MapLegend />
     </div>
   );
 }
