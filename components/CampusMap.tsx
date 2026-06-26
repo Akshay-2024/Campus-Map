@@ -83,7 +83,7 @@ function LocationButton({
       },
       {
         enableHighAccuracy: true,
-        timeout: 10000,
+        timeout: 30000,
         maximumAge: 0,
       }
     );
@@ -109,6 +109,8 @@ export default function CampusMap({
   const [distance, setDistance] = useState(0);
   const [time, setTime] = useState(0);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+      const walkingTime = Math.ceil(distance / 80);
+
   return (
     <div className="relative h-[85vh] w-full rounded-lg overflow-hidden shadow-lg">
 
@@ -168,12 +170,11 @@ export default function CampusMap({
         {(distance / 1000).toFixed(2)} km
       </span>
     </p>
-
     <p className="text-gray-700 mt-2">
       🚶 Walking Time:
       <span className="font-semibold">
         {" "}
-        {Math.ceil(time / 60)} min
+        {walkingTime} min
       </span>
     </p>
   </div>
