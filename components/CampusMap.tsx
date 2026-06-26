@@ -38,6 +38,66 @@ function FlyToLocation({
   return null;
 }
 
+function LocationButton({
+  setUserLocation,
+}: {
+  setUserLocation: React.Dispatch<
+    React.SetStateAction<[number, number] | null>
+  >;
+}) {
+  const map = useMap();
+
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const coords: [number, number] = [
+          position.coords.latitude,
+          position.coords.longitude,
+        ];
+
+        setUserLocation(coords);
+        map.flyTo(coords, 17);
+      },
+      (error) => {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            alert("Please allow location permission.");
+            break;
+
+          case error.POSITION_UNAVAILABLE:
+            alert("Please turn ON GPS/Location.");
+            break;
+
+          case error.TIMEOUT:
+            alert("Location request timed out.");
+            break;
+
+          default:
+            alert("Unable to get location.");
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      }
+    );
+  };
+
+  return (
+    <button
+      onClick={getLocation}
+      className="absolute top-4 right-4 z-[1000] bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg"
+    >
+      📍 Use My Location
+    </button>
+  );
+}
 
 export default function CampusMap({
   locations,
@@ -62,10 +122,11 @@ export default function CampusMap({
           attribution="&copy; OpenStreetMap contributors"
         />
 
-        <UserLocation
-          userLocation={userLocation}
-          setUserLocation={setUserLocation}
-        />
+        <UserLocation userLocation={userLocation} />
+
+<LocationButton
+  setUserLocation={setUserLocation}
+/>
 
        <RouteMachine
         start={userLocation}
