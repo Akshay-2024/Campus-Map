@@ -1,4 +1,6 @@
-/* ── Root shell ── */
+/* ══════════════════════════════════════════════
+   ROOT
+══════════════════════════════════════════════ */
 .root {
   display: flex;
   flex-direction: column;
@@ -8,163 +10,123 @@
   background: var(--cn-surface-low);
 }
 
-/* ── Header ── */
+/* ══════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════ */
 .header {
   flex-shrink: 0;
-  height: 56px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 16px;
   background: var(--cn-primary);
   border-bottom: 1px solid var(--cn-primary-container);
   box-shadow: 0 1px 4px rgba(0,0,0,0.22);
-  z-index: 20;
+  z-index: 50;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.brand { display: flex; align-items: center; gap: 10px; }
 
 .brandIcon {
-  width: 32px;
-  height: 32px;
+  width: 30px; height: 30px;
   background: rgba(255,255,255,0.14);
   border: 1px solid rgba(255,255,255,0.22);
   border-radius: var(--cn-radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
 }
 
 .brandTitle {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 13px; font-weight: 700;
   color: var(--cn-on-primary);
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+  letter-spacing: -0.01em; line-height: 1.2;
 }
 
 .brandSub {
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 10px; font-weight: 500;
   color: var(--cn-on-primary-container);
-  letter-spacing: 0.02em;
-  line-height: 1.2;
+  letter-spacing: 0.02em; line-height: 1.2;
 }
 
 .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 8px;
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.18);
   border-radius: var(--cn-radius-sm);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
   color: var(--cn-on-primary-container);
 }
 
 .badgeDot {
-  width: 6px;
-  height: 6px;
+  width: 5px; height: 5px;
   background: var(--cn-on-tertiary-container);
-  border-radius: 50%;
-  flex-shrink: 0;
+  border-radius: 50%; flex-shrink: 0;
 }
 
-/* ── Body layout ──
-   Two columns: fixed sidebar | map fills the rest.
-   height is explicit so Leaflet can resolve height:100% to pixels. */
-.body {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  height: calc(100vh - 56px);
-  overflow: hidden;
+/* ══════════════════════════════════════════════
+   DESKTOP LAYOUT (≥768px)
+   Hidden on mobile
+══════════════════════════════════════════════ */
+.desktopBody {
+  display: none; /* hidden on mobile */
 }
 
-/* ── Sidebar ── */
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+  display: flex; flex-direction: column;
+  height: 100%; overflow: hidden;
   background: var(--cn-surface-white);
   border-right: 1px solid var(--cn-outline-variant);
 }
 
 .searchWrap {
-  flex-shrink: 0;
-  padding: 16px;
+  flex-shrink: 0; padding: 16px;
   border-bottom: 1px solid var(--cn-surface-high);
 }
 
 .sectionLabel {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--cn-outline);
-  margin-bottom: 8px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--cn-outline); margin-bottom: 8px;
 }
 
 .filterWrap {
-  flex-shrink: 0;
-  padding: 12px 16px;
+  flex-shrink: 0; padding: 12px 16px;
   border-bottom: 1px solid var(--cn-surface-high);
 }
 
 .resultsBar {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-shrink: 0; display: flex;
+  align-items: center; justify-content: space-between;
   padding: 8px 16px;
   background: var(--cn-surface-low);
   border-bottom: 1px solid var(--cn-surface-high);
 }
 
 .resultsLabel {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.05em; text-transform: uppercase;
   color: var(--cn-on-surface-variant);
 }
 
 .resultsChip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 22px;
-  height: 20px;
-  padding: 0 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 22px; height: 20px; padding: 0 6px;
   background: var(--cn-secondary-container);
   color: var(--cn-on-secondary-container);
   border-radius: var(--cn-radius-sm);
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 11px; font-weight: 700;
 }
 
 .list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex: 1; overflow-y: auto; padding: 8px;
+  display: flex; flex-direction: column; gap: 4px;
 }
-
-.list::-webkit-scrollbar        { width: 4px; }
-.list::-webkit-scrollbar-track  { background: transparent; }
-.list::-webkit-scrollbar-thumb  { background: var(--cn-outline-variant); border-radius: 2px; }
+.list::-webkit-scrollbar { width: 4px; }
+.list::-webkit-scrollbar-track { background: transparent; }
+.list::-webkit-scrollbar-thumb { background: var(--cn-outline-variant); border-radius: 2px; }
 
 .item {
   cursor: pointer;
@@ -172,69 +134,38 @@
   border: 1px solid transparent;
   transition: background 0.1s, border-color 0.1s;
 }
+.item:hover { background: var(--cn-surface-low); border-color: var(--cn-outline-variant); }
+.itemSelected { background: var(--cn-secondary-container); border-color: var(--cn-primary-container); }
 
-.item:hover {
-  background: var(--cn-surface-low);
-  border-color: var(--cn-outline-variant);
-}
+.empty { text-align: center; padding: 48px 20px; }
+.emptyIcon { font-size: 28px; opacity: 0.35; margin-bottom: 10px; }
+.emptyTitle { font-size: 14px; font-weight: 600; color: var(--cn-on-surface-variant); margin-bottom: 4px; }
+.emptyBody { font-size: 13px; color: var(--cn-outline); line-height: 1.5; }
 
-.itemSelected {
-  background: var(--cn-secondary-container);
-  border-color: var(--cn-primary-container);
-}
-
-.empty {
-  text-align: center;
-  padding: 48px 20px;
-}
-
-.emptyIcon {
-  font-size: 28px;
-  opacity: 0.35;
-  margin-bottom: 10px;
-}
-
-.emptyTitle {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--cn-on-surface-variant);
-  margin-bottom: 4px;
-}
-
-.emptyBody {
-  font-size: 13px;
-  color: var(--cn-outline);
-  line-height: 1.5;
-}
-
-/* ── Map panel ──
-   position:relative is REQUIRED — it makes this the containing block
-   for the absolutely-positioned info panel overlay.
-   Without it the info panel escapes to the viewport and covers the map. */
 .mapPanel {
   position: relative;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
 }
 
-/* CampusMap's root div must fill this panel */
-.mapPanel > div {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
+.mapInner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-/* Leaflet itself */
-.mapPanel :global(.leaflet-container) {
-  width: 100% !important;
-  height: 100% !important;
+.infoPanel {
+  position: absolute;
+  top: 16px; left: 50px;
+  z-index: 1000;
+  width: 240px;
+  background: var(--cn-surface-white);
+  border: 1px solid var(--cn-outline-variant);
+  border-radius: var(--cn-radius-md);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  padding: 14px 16px;
+  animation: panelIn 0.16s ease;
 }
-
-/* ── Info panel — floats over the map, does NOT push layout ──
-   top-left so it doesn't clash with the "My Location" button (top-right) */
-
 
 @keyframes panelIn {
   from { opacity: 0; transform: translateY(-6px); }
@@ -242,35 +173,26 @@
 }
 
 .infoPanelEyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--cn-outline);
-  margin-bottom: 4px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--cn-outline); margin-bottom: 4px;
 }
 
 .infoPanelName {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 15px; font-weight: 700;
   color: var(--cn-primary);
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  padding-right: 20px;
-  margin-bottom: 8px;
+  line-height: 1.3; letter-spacing: -0.01em;
+  padding-right: 20px; margin-bottom: 8px;
 }
 
 .infoPanelCat {
-  display: inline-flex;
-  align-items: center;
+  display: inline-flex; align-items: center;
   padding: 3px 8px;
   background: rgba(5,99,100,0.08);
   color: var(--cn-tertiary-container);
   border-radius: var(--cn-radius-sm);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  margin-bottom: 8px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.03em; margin-bottom: 8px;
 }
 
 .infoPanelDesc {
@@ -280,49 +202,261 @@
 }
 
 .infoPanelClose {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 22px;
-  height: 22px;
-  border: none;
+  position: absolute; top: 10px; right: 10px;
+  width: 22px; height: 22px; border: none;
   background: var(--cn-surface-container);
   border-radius: var(--cn-radius-sm);
   cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--cn-on-surface-variant);
+  transition: background 0.1s;
+  font-family: var(--cn-font); line-height: 1;
+}
+.infoPanelClose:hover { background: var(--cn-surface-high); }
+
+/* ══════════════════════════════════════════════
+   MOBILE LAYOUT (<768px)
+   Full-screen map + bottom sheet + tab bar
+══════════════════════════════════════════════ */
+.mobileBody {
   display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  /* Account for header (52px) + tab bar (60px) */
+  height: calc(100vh - 52px);
+}
+
+/* Full-screen map fills the whole area */
+.mobileMap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Selected location chip — compact, floats at top of map */
+.mobileInfoChip {
+  position: absolute;
+  top: 12px;
+  left: 50px;
+  right: 175px;
+  z-index: 500;
+  background: var(--cn-surface-white);
+  border: 1px solid var(--cn-outline-variant);
+  border-radius: var(--cn-radius-lg);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  padding: 10px 40px 10px 14px;
+  animation: panelIn 0.16s ease;
+}
+
+.mobileInfoChipName {
+  font-size: 14px; font-weight: 700;
+  color: var(--cn-primary);
+  line-height: 1.2; margin-bottom: 4px;
+}
+
+.mobileInfoChipCat {
+  display: inline-flex; align-items: center;
+  padding: 2px 7px;
+  background: rgba(5,99,100,0.08);
+  color: var(--cn-tertiary-container);
+  border-radius: var(--cn-radius-sm);
+  font-size: 11px; font-weight: 600;
+}
+
+.mobileInfoChipClose {
+  position: absolute; top: 10px; right: 10px;
+  width: 24px; height: 24px; border: none;
+  background: var(--cn-surface-container);
+  border-radius: var(--cn-radius-sm);
+  cursor: pointer; font-size: 12px;
+  color: var(--cn-on-surface-variant);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--cn-font);
+}
+
+/* ── Bottom Sheet ── */
+.bottomSheet {
+  position: absolute;
+  bottom: 60px; /* above tab bar */
+  left: 0; right: 0;
+  z-index: 400;
+  background: var(--cn-surface-white);
+  border-radius: var(--cn-radius-lg) var(--cn-radius-lg) 0 0;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
+  /* Peek: show handle + ~1 card height */
+  height: 140px;
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottomSheetOpen {
+  /* Open: takes up ~65% of screen */
+  height: calc(65vh - 52px - 60px);
+}
+
+.sheetHandle {
+  flex-shrink: 0;
+  padding: 10px 16px 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--cn-surface-high);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.sheetHandleBar {
+  width: 36px; height: 4px;
+  background: var(--cn-outline-variant);
+  border-radius: 2px;
+}
+
+.sheetHandleLabel {
+  font-size: 12px; font-weight: 600;
+  color: var(--cn-on-surface-variant);
+  letter-spacing: 0.01em;
+}
+
+.sheetContent {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.sheetContent::-webkit-scrollbar { display: none; }
+
+.sheetSearch {
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--cn-surface-high);
+  flex-shrink: 0;
+}
+
+.sheetFilter {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--cn-surface-high);
+  flex-shrink: 0;
+}
+
+.sheetList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sheetList::-webkit-scrollbar { display: none; }
+
+/* ── List tab (full view) ── */
+.mobileListView {
+  position: absolute;
+  inset: 0;
+  bottom: 60px;
+  z-index: 400;
+  background: var(--cn-surface-white);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mobileListSearch {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--cn-surface-high);
+}
+
+.mobileListFilter {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--cn-surface-high);
+}
+
+.mobileListItems {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mobileListItems::-webkit-scrollbar { display: none; }
+
+/* ── Tab Bar ── */
+.tabBar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  z-index: 500;
+  display: flex;
+  background: var(--cn-surface-white);
+  border-top: 1px solid var(--cn-outline-variant);
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+}
+
+.tabBtn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  color: var(--cn-on-surface-variant);
+  gap: 3px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
   transition: background 0.1s;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.tabBtn:active { background: var(--cn-surface-low); }
+
+.tabIcon { font-size: 20px; line-height: 1; }
+
+.tabLabel {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--cn-outline);
   font-family: var(--cn-font);
-  line-height: 1;
 }
 
-.infoPanelClose:hover {
-  background: var(--cn-surface-high);
+.tabBtnActive .tabLabel {
+  color: var(--cn-primary);
 }
 
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  .body {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    height: 100vh;
-  }
+.tabBtnActive .tabIcon {
+  filter: none;
+}
 
-  .sidebar {
-    height: auto;
-    max-height: 260px;
-    border-right: none;
-    border-bottom: 1px solid var(--cn-outline-variant);
-  }
+/* ══════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+══════════════════════════════════════════════ */
 
-  .brandSub { display: none; }
+/* Mobile only (<768px): show mobile, hide desktop */
+@media (max-width: 767px) {
+  .desktopBody { display: none !important; }
+  .mobileBody  { display: flex !important; }
+}
 
-  .infoPanel {
-    width: calc(100% - 32px);
-    left: 16px;
-    top: 8px;
+/* Tablet + Desktop (≥768px): show desktop, hide mobile */
+@media (min-width: 768px) {
+  .mobileBody  { display: none !important; }
+  .desktopBody {
+    display: grid !important;
+    grid-template-columns: 300px 1fr;
+    height: calc(100vh - 52px);
+    overflow: hidden;
   }
+}
+
+/* Tablet tweaks (768px–1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .desktopBody {
+    grid-template-columns: 260px 1fr;
+  }
+  .brandTitle { font-size: 12px; }
 }
