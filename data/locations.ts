@@ -161,5 +161,6 @@ export const locations: Location[] = [
     lat: 8.5589823440937,      
     lng:  76.88804660851604,
   },
+  
 
 ];

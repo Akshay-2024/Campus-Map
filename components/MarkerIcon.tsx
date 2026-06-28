@@ -59,7 +59,8 @@ export function getMarkerIcon(category: string) {
     case "Hospital":
       return createIcon(HeartPulse, "#ef4444");
     
-    
+    case "Others":
+      return createIcon(MapPin, "#6b7280");
 
     default:
       return createIcon(MapPin, "#6b7280");
