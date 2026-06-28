@@ -3,7 +3,7 @@ type Props = {
   setSelectedCategory: (category: string) => void;
 };
 
-const categories = ["All", "Department", "Library", "Transport", "Hostel", "Food"];
+const categories = ["All", "Department", "Library", "Transport", "Hostel", "Food", "Others", "Hospital", "Gate"];
 
 export default function CategoryFilter({ selectedCategory, setSelectedCategory }: Props) {
   return (

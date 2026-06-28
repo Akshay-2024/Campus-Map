@@ -7,6 +7,8 @@ import {
   Bed,
   UtensilsCrossed,
   MapPin,
+
+  HeartPulse,
 } from "lucide-react";
 
 function createIcon(
@@ -53,6 +55,11 @@ export function getMarkerIcon(category: string) {
 
     case "Food":
       return createIcon(UtensilsCrossed, "#ea580c");
+
+    case "Hospital":
+      return createIcon(HeartPulse, "#ef4444");
+    
+    
 
     default:
       return createIcon(MapPin, "#6b7280");

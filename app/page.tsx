@@ -67,18 +67,26 @@ export default function Home() {
 
       {/* ── Header ── */}
       <header className={s.header}>
-        <div className={s.brand}>
-          <div className={s.brandIcon}>🗺️</div>
-          <div>
-            <div className={s.brandTitle}>Kariavattom Campus Navigator</div>
-            <div className={s.brandSub}>University of Kerala</div>
-          </div>
-        </div>
-        <span className={s.badge}>
-          <span className={s.badgeDot} />
-          Live Map
-        </span>
-      </header>
+  <div className={s.brand}>
+    <div className={s.brandIcon}>🗺️</div>
+    <div>
+      <div className={s.brandTitle}>Kariavattom Campus Navigator</div>
+      <div className={s.brandSub}>University of Kerala</div>
+    </div>
+  </div>
+  <div className={s.headerRight}>
+    <div className={s.credit}>
+      <div className={s.creditLabel}>built by</div>
+      <a href="https://akshays.me" target="_blank" rel="noopener noreferrer" className={s.creditLink}>
+        akshays.me
+      </a>
+    </div>
+    <span className={s.badge}>
+      <span className={s.badgeDot} />
+      Live Map
+    </span>
+  </div>
+</header>
 
       {/* ══════════════════════════════════
           DESKTOP (≥768px)

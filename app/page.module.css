@@ -26,6 +26,36 @@
   z-index: 50;
 }
 
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.credit {
+  text-align: right;
+}
+
+.creditLabel {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--cn-on-primary-container);
+  line-height: 1.2;
+}
+
+.creditLink {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cn-on-primary);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.35);
+  line-height: 1.2;
+}
+
+.creditLink:hover {
+  border-bottom-color: var(--cn-on-primary);
+}
+
 .brand { display: flex; align-items: center; gap: 10px; }
 
 .brandIcon {
