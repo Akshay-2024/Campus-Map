@@ -1,33 +1,61 @@
 import { categoryIcons } from "./icons";
 import { Location } from "../types/location";
 
-export default function LocationCard({
-  location,
-}: {
-  location: Location;
-}) {
-  const Icon =
-    categoryIcons[
-      location.category as keyof typeof categoryIcons
-    ];
+export default function LocationCard({ location }: { location: Location }) {
+  const Icon = categoryIcons[location.category as keyof typeof categoryIcons];
 
   return (
-    <div className="border rounded-lg p-4 shadow hover:shadow-lg transition cursor-pointer">
-      <div className="flex items-center gap-3">
+    <div style={{
+      padding: "10px 12px",
+      fontFamily: "var(--cn-font)",
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
         {Icon && (
-          <Icon className="w-6 h-6 text-blue-500" />
+          <Icon style={{
+            width: 16,
+            height: 16,
+            color: "var(--cn-primary-container)",
+            flexShrink: 0,
+          }} />
         )}
-
-        <h2 className="text-lg font-bold">
+        <span style={{
+          fontSize: 13,
+          fontWeight: 600,
+          color: "var(--cn-on-surface)",
+          lineHeight: 1.3,
+          letterSpacing: "-0.01em",
+        }}>
           {location.name}
-        </h2>
+        </span>
       </div>
 
-      <p className="mt-3 text-gray-600">
-        {location.description}
-      </p>
+      {location.description && (
+        <p style={{
+          fontSize: 12,
+          color: "var(--cn-on-surface-variant)",
+          lineHeight: 1.5,
+          marginBottom: 6,
+          marginLeft: 24,
+          display: "-webkit-box",
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+        }}>
+          {location.description}
+        </p>
+      )}
 
-      <span className="inline-block mt-4 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+      <span style={{
+        display: "inline-block",
+        marginLeft: 24,
+        padding: "2px 7px",
+        background: "rgba(5,99,100,0.08)",
+        color: "var(--cn-tertiary-container)",
+        borderRadius: "var(--cn-radius-sm)",
+        fontSize: 11,
+        fontWeight: 600,
+        letterSpacing: "0.03em",
+      }}>
         {location.category}
       </span>
     </div>

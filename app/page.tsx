@@ -1,97 +1,122 @@
 "use client";
-
 import { useState } from "react";
 import dynamic from "next/dynamic";
-
 import { locations } from "../data/locations";
 import { Location } from "../types/location";
-
 import SearchBar from "../components/SearchBar";
 import LocationCard from "../components/LocationCard";
 import CategoryFilter from "../components/CategoryFilter";
+import s from "./page.module.css";
 
-const CampusMap = dynamic(
-  () => import("../components/CampusMap"),
-  { ssr: false }
-);
+const CampusMap = dynamic(() => import("../components/CampusMap"), {
+  ssr: false,
+});
 
 export default function Home() {
-  // Search state
   const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
 
-  // Category filter state
-  const [selectedCategory, setSelectedCategory] =
-    useState("All");
-
-  // Selected location state
-  const [selectedLocation, setSelectedLocation] =
-    useState<Location | null>(null);
-
-  // Filter locations
-  const filteredLocations = locations.filter((location) => {
-    const matchesSearch = location.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    const matchesCategory =
-      selectedCategory === "All" ||
-      location.category === selectedCategory;
-
-    return matchesSearch && matchesCategory;
+  const filtered = locations.filter((loc) => {
+    const matchName = loc.name.toLowerCase().includes(search.toLowerCase());
+    const matchCat  = selectedCategory === "All" || loc.category === selectedCategory;
+    return matchName && matchCat;
   });
 
   return (
-    <main className="h-screen p-4 flex flex-col bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4 text-center">
-        🗺️ Kariavattom Campus Navigator
-      </h1>
+    <div className={s.root}>
 
-      <div className="flex-1 grid grid-cols-4 gap-4 min-h-0">
-
-        {/* MAP */}
-        <div className="col-span-3 h-full">
-          <CampusMap
-            locations={filteredLocations}
-            selectedLocation={selectedLocation}
-          />
+      {/* Header */}
+      <header className={s.header}>
+        <div className={s.brand}>
+          <div className={s.brandIcon}>🗺️</div>
+          <div>
+            <div className={s.brandTitle}>Kariavattom Campus Navigator</div>
+            <div className={s.brandSub}>University of Kerala</div>
+          </div>
         </div>
+        <span className={s.badge}>
+          <span className={s.badgeDot} />
+          Live Map
+        </span>
+      </header>
 
-        {/* SIDEBAR */}
-        <div className="bg-white rounded-xl shadow-lg p-4 overflow-y-auto">
+      {/* Body: sidebar + map side by side */}
+      <div className={s.body}>
 
-          <SearchBar
-            search={search}
-            setSearch={setSearch}
-          />
+        {/* ── Sidebar ── */}
+        <aside className={s.sidebar}>
+          <div className={s.searchWrap}>
+            <div className={s.sectionLabel}>Find a location</div>
+            <SearchBar search={search} setSearch={setSearch} />
+          </div>
 
-          <CategoryFilter
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />
+          <div className={s.filterWrap}>
+            <div className={s.sectionLabel}>Category</div>
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
+          </div>
 
-          <div className="space-y-3 mt-5">
-            {filteredLocations.length > 0 ? (
-              filteredLocations.map((location) => (
+          <div className={s.resultsBar}>
+            <span className={s.resultsLabel}>Locations</span>
+            <span className={s.resultsChip}>{filtered.length}</span>
+          </div>
+
+          <div className={s.list}>
+            {filtered.length > 0 ? (
+              filtered.map((loc) => (
                 <div
-                  key={location.id}
-                  onClick={() =>
-                    setSelectedLocation(location)
-                  }
-                  className="cursor-pointer"
+                  key={loc.id}
+                  onClick={() => setSelectedLocation(loc)}
+                  className={`${s.item} ${selectedLocation?.id === loc.id ? s.itemSelected : ""}`}
                 >
-                  <LocationCard location={location} />
+                  <LocationCard location={loc} />
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-500 mt-8">
-                No locations found.
-              </p>
+              <div className={s.empty}>
+                <div className={s.emptyIcon}>🔍</div>
+                <div className={s.emptyTitle}>No locations found</div>
+                <div className={s.emptyBody}>Try a different name or a broader category.</div>
+              </div>
             )}
           </div>
+        </aside>
 
-        </div>
+        {/* ── Map panel ── 
+            The info panel is position:absolute INSIDE this <main>,
+            so it overlays the map instead of sitting beside it. */}
+        <main className={s.mapPanel}>
+
+          {/* Map fills 100% of this panel */}
+          <CampusMap locations={filtered} selectedLocation={selectedLocation} />
+
+          {/* Floating info card — overlays the map, top-left corner */}
+          {selectedLocation && (
+            <div className={s.infoPanel}>
+              <button
+                className={s.infoPanelClose}
+                onClick={() => setSelectedLocation(null)}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+              <div className={s.infoPanelEyebrow}>Selected location</div>
+              <div className={s.infoPanelName}>{selectedLocation.name}</div>
+              {selectedLocation.category && (
+                <div className={s.infoPanelCat}>{selectedLocation.category}</div>
+              )}
+              {selectedLocation.description && (
+                <p className={s.infoPanelDesc}>{selectedLocation.description}</p>
+              )}
+            </div>
+          )}
+
+        </main>
 
       </div>
-    </main>
+    </div>
   );
 }

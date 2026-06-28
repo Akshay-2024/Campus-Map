@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-routing-machine";
@@ -14,80 +14,60 @@ type Props = {
 };
 
 type RouteEvent = {
-  routes: {
-    summary: {
-      totalDistance: number;
-      totalTime: number;
-    };
-  }[];
+  routes: { summary: { totalDistance: number; totalTime: number } }[];
 };
 
-export default function RouteMachine({
-  start,
-  end,
-  setDistance,
-  setTime,
-}: Props) {
+type RoutingControl = L.Control & {
+  on: (event: string, cb: (e: RouteEvent) => void) => void;
+};
+
+export default function RouteMachine({ start, end, setDistance, setTime }: Props) {
   const map = useMap();
+  const controlRef = useRef<RoutingControl | null>(null);
 
   useEffect(() => {
+    // Always clean up previous control first
+    if (controlRef.current) {
+      try { map.removeControl(controlRef.current); } catch (_) {}
+      controlRef.current = null;
+    }
+
+    // Only draw route when both points exist
     if (!start || !end) return;
 
-    const routing = (L as unknown as {
-      Routing: {
-        control: (options: unknown) => L.Control & {
-          on: (
-            event: string,
-            callback: (e: RouteEvent) => void
-          ) => void;
-        };
-      };
-    }).Routing;
+    const Routing = (L as any).Routing;
 
-    const routingControl = routing.control({
-      waypoints: [
-        L.latLng(start[0], start[1]),
-        L.latLng(end[0], end[1]),
-      ],
-
+    const control: RoutingControl = Routing.control({
+      waypoints: [L.latLng(start[0], start[1]), L.latLng(end[0], end[1])],
       routeWhileDragging: false,
       addWaypoints: false,
       draggableWaypoints: false,
       fitSelectedRoutes: true,
       show: false,
-
       lineOptions: {
-        styles: [
-          {
-            color: "#2563eb",
-            weight: 6,
-            opacity: 0.9,
-          },
-        ],
+        styles: [{ color: "#2563eb", weight: 6, opacity: 0.9 }],
+        extendToWaypoints: true,
+        missingRouteTolerance: 0,
       },
-
       createMarker: () => null,
-    } as never);
-
-    routingControl.on("routesfound", (e: RouteEvent) => {
-      const route = e.routes[0];
-
-      setDistance(route.summary.totalDistance);
-      setTime(route.summary.totalTime);
     });
 
-    routingControl.addTo(map);
+    control.on("routesfound", (e: RouteEvent) => {
+      setDistance(e.routes[0].summary.totalDistance);
+      setTime(e.routes[0].summary.totalTime);
+    });
 
+    control.addTo(map);
+    controlRef.current = control;
+
+    // Cleanup on unmount or when deps change
     return () => {
-  try {
-    if (routingControl) {
-      map.removeControl(routingControl);
-    }
-  } catch (err) {
-    console.log("Routing cleanup skipped");
-  }
-};
-  }, [map, start, end, setDistance, setTime]);
+      if (controlRef.current) {
+        try { map.removeControl(controlRef.current); } catch (_) {}
+        controlRef.current = null;
+      }
+    };
+  }, [start?.[0], start?.[1], end?.[0], end?.[1]]);
 
   return null;
 }

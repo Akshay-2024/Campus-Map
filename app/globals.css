@@ -1,26 +1,83 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --cn-primary:              #003f87;
+  --cn-primary-container:    #0056b3;
+  --cn-on-primary:           #ffffff;
+  --cn-on-primary-container: #bbd0ff;
+
+  --cn-secondary-container:    #d5e0f7;
+  --cn-on-secondary-container: #586377;
+
+  --cn-tertiary-container:    #056364;
+  --cn-on-tertiary-container: #92dcdd;
+
+  --cn-surface:                #f9f9ff;
+  --cn-surface-low:            #f2f3fc;
+  --cn-surface-container:      #ededf6;
+  --cn-surface-high:           #e7e8f0;
+  --cn-surface-white:          #ffffff;
+
+  --cn-on-surface:         #191c21;
+  --cn-on-surface-variant: #424752;
+  --cn-outline:            #727784;
+  --cn-outline-variant:    #c2c6d4;
+
+  --cn-font:       'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --cn-radius-sm:  4px;
+  --cn-radius:     8px;
+  --cn-radius-md:  12px;
+  --cn-radius-lg:  16px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  height: 100%;
+  background: var(--cn-surface);
+  color: var(--cn-on-surface);
+  font-family: var(--cn-font);
+  -webkit-font-smoothing: antialiased;
+}
+/* ── Kariavattom Campus Navigator — Design Tokens ──
+   ADD THIS BLOCK at the very bottom of your existing globals.css.
+   Do NOT replace the file — just paste this after everything else. */
+
+:root {
+  --cn-primary:              #003f87;
+  --cn-primary-container:    #0056b3;
+  --cn-on-primary:           #ffffff;
+  --cn-on-primary-container: #bbd0ff;
+
+  --cn-secondary-container:    #d5e0f7;
+  --cn-on-secondary-container: #586377;
+
+  --cn-tertiary-container:    #056364;
+  --cn-on-tertiary-container: #92dcdd;
+
+  --cn-surface:           #f9f9ff;
+  --cn-surface-low:       #f2f3fc;
+  --cn-surface-container: #ededf6;
+  --cn-surface-high:      #e7e8f0;
+  --cn-surface-white:     #ffffff;
+
+  --cn-on-surface:         #191c21;
+  --cn-on-surface-variant: #424752;
+  --cn-outline:            #727784;
+  --cn-outline-variant:    #c2c6d4;
+
+  --cn-font:      'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --cn-radius-sm: 4px;
+  --cn-radius:    8px;
+  --cn-radius-md: 12px;
+  --cn-radius-lg: 16px;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html, body {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
 }

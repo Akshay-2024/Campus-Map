@@ -4,99 +4,33 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-import { useEffect,useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import RouteMachine from "./RouteMachine";
-
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-} from "react-leaflet";
-
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { Location } from "../types/location";
 import { getMarkerIcon } from "./MarkerIcon";
 import MapLegend from "./MapLegend";
 import UserLocation from "./UserLocation";
+import L from "leaflet";
 
-function FlyToLocation({
-  location,
-}: {
-  location: Location | null;
-}) {
+// Flies to a location when selectedLocation changes
+function FlyToLocation({ location }: { location: Location | null }) {
   const map = useMap();
-
   useEffect(() => {
     if (!location) return;
-
-    map.flyTo([location.lat, location.lng], 18, {
-      duration: 1.5,
-    });
+    map.flyTo([location.lat, location.lng], 18, { duration: 1.5 });
   }, [location, map]);
-
   return null;
 }
 
-function LocationButton({
-  setUserLocation,
-}: {
-  setUserLocation: React.Dispatch<
-    React.SetStateAction<[number, number] | null>
-  >;
-}) {
+// Flies to user location when it's set
+function FlyToUser({ coords }: { coords: [number, number] | null }) {
   const map = useMap();
-
-  const getLocation = () => {
-    if (!navigator.geolocation) {
-      alert("Geolocation is not supported.");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const coords: [number, number] = [
-          position.coords.latitude,
-          position.coords.longitude,
-        ];
-
-        setUserLocation(coords);
-        map.flyTo(coords, 17);
-      },
-      (error) => {
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            alert("Please allow location permission.");
-            break;
-
-          case error.POSITION_UNAVAILABLE:
-            alert("Please turn ON GPS/Location.");
-            break;
-
-          case error.TIMEOUT:
-            alert("Location request timed out.");
-            break;
-
-          default:
-            alert("Unable to get location.");
-        }
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 30000,
-        maximumAge: 0,
-      }
-    );
-  };
-
-  return (
-    <button
-      onClick={getLocation}
-      className="absolute top-4 right-4 z-[1000] bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg"
-    >
-      📍 Use My Location
-    </button>
-  );
+  useEffect(() => {
+    if (!coords) return;
+    map.flyTo(coords, 17, { duration: 1.2 });
+  }, [coords, map]);
+  return null;
 }
 
 export default function CampusMap({
@@ -107,80 +41,135 @@ export default function CampusMap({
   selectedLocation: Location | null;
 }) {
   const [distance, setDistance] = useState(0);
-  const [time, setTime] = useState(0);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
-      const walkingTime = Math.ceil(distance / 80);
+  const walkingTime = Math.ceil(distance / 80);
+
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setUserLocation([pos.coords.latitude, pos.coords.longitude]);
+      },
+      (err) => {
+        switch (err.code) {
+          case err.PERMISSION_DENIED:    alert("Please allow location permission."); break;
+          case err.POSITION_UNAVAILABLE: alert("Please turn ON GPS/Location."); break;
+          case err.TIMEOUT:              alert("Location request timed out."); break;
+          default:                       alert("Unable to get location.");
+        }
+      },
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
+    );
+  };
 
   return (
-    <div className="relative h-[85vh] w-full rounded-lg overflow-hidden shadow-lg">
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+
+      {/* My Location button — outside MapContainer, anchors to wrapper */}
+      <button
+        onClick={getLocation}
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 50,
+          zIndex: 1000,
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          padding: "8px 14px",
+          background: "var(--cn-primary)",
+          color: "var(--cn-on-primary)",
+          border: "none",
+          borderRadius: "var(--cn-radius)",
+          fontFamily: "var(--cn-font)",
+          fontSize: 13,
+          fontWeight: 600,
+          cursor: "pointer",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
+          whiteSpace: "nowrap",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "var(--cn-primary-container)")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "var(--cn-primary)")}
+      >
+        📍 My Location
+      </button>
+
+      {/* Route info card */}
+      {distance > 0 && (
+        <div style={{
+          position: "absolute",
+          bottom: 40,
+          left: 16,
+          zIndex: 1000,
+          background: "var(--cn-surface-white)",
+          border: "1px solid var(--cn-outline-variant)",
+          borderRadius: "var(--cn-radius-md)",
+          boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+          padding: "12px 16px",
+          minWidth: 180,
+          fontFamily: "var(--cn-font)",
+        }}>
+          <div style={{
+            fontSize: 10, fontWeight: 700,
+            letterSpacing: "0.07em", textTransform: "uppercase",
+            color: "var(--cn-outline)", marginBottom: 8,
+          }}>
+            Route info
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <div style={{ fontSize: 13, color: "var(--cn-on-surface-variant)" }}>
+              📏 <span style={{ fontWeight: 600, color: "var(--cn-on-surface)" }}>
+                {(distance / 1000).toFixed(2)} km
+              </span>
+            </div>
+            <div style={{ fontSize: 13, color: "var(--cn-on-surface-variant)" }}>
+              🚶 <span style={{ fontWeight: 600, color: "var(--cn-on-surface)" }}>
+                {walkingTime} min
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <MapContainer
         center={[8.563532, 76.88798]}
         zoom={17}
-        className="h-full w-full"
+        style={{ width: "100%", height: "100%" }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; OpenStreetMap contributors"
         />
 
+        {/* Flies to user location inside MapContainer where useMap() works */}
+        <FlyToUser coords={userLocation} />
+        <FlyToLocation location={selectedLocation} />
         <UserLocation userLocation={userLocation} />
 
-<LocationButton
-  setUserLocation={setUserLocation}
-/>
+        <RouteMachine
+          start={userLocation}
+          end={selectedLocation ? [selectedLocation.lat, selectedLocation.lng] : null}
+          setDistance={setDistance}
+          setTime={() => {}}
+        />
 
-       <RouteMachine
-        start={userLocation}
-        end={
-          selectedLocation
-            ? [selectedLocation.lat, selectedLocation.lng]
-            : null
-        }
-        setDistance={setDistance}
-        setTime={setTime}
-      />
-
-        <FlyToLocation location={selectedLocation} />
-
-        {locations.map((location) => (
+        {locations.map((loc) => (
           <Marker
-            key={location.id}
-            position={[location.lat, location.lng]}
-            icon={getMarkerIcon(location.category)}
+            key={loc.id}
+            position={[loc.lat, loc.lng]}
+            icon={getMarkerIcon(loc.category)}
           >
             <Popup>
-              <strong>{location.name}</strong>
-              <br />
-              {location.description}
+              <strong>{loc.name}</strong><br />{loc.description}
             </Popup>
           </Marker>
         ))}
       </MapContainer>
-        {distance > 0 && (
-  <div className="absolute top-4 left-4 z-[1000] bg-white rounded-xl shadow-lg p-4 w-60">
-    <h3 className="font-bold text-lg mb-2">
-      Route Information
-    </h3>
 
-    <p className="text-gray-700">
-      📏 Distance:
-      <span className="font-semibold">
-        {" "}
-        {(distance / 1000).toFixed(2)} km
-      </span>
-    </p>
-    <p className="text-gray-700 mt-2">
-      🚶 Walking Time:
-      <span className="font-semibold">
-        {" "}
-        {walkingTime} min
-      </span>
-    </p>
-  </div>
-)}
       <MapLegend />
-
     </div>
   );
 }
