@@ -101,7 +101,7 @@ export default function CampusMap({
       {distance > 0 && (
         <div style={{
           position: "absolute",
-          bottom: 40,
+          bottom: 200,
           left: 16,
           zIndex: 1000,
           background: "var(--cn-surface-white)",

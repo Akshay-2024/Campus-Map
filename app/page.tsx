@@ -77,9 +77,9 @@ export default function Home() {
   <div className={s.headerRight}>
     <div className={s.credit}>
       <div className={s.creditLabel}>built by</div>
-      <a href="https://akshays.me" target="_blank" rel="noopener noreferrer" className={s.creditLink}>
-        akshays.me
-      </a>
+      <a href="" target="_blank" rel="noopener noreferrer" className={s.creditLink}>
+        a kid 
+      </a> 
     </div>
     <span className={s.badge}>
       <span className={s.badgeDot} />
