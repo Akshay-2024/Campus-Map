@@ -137,11 +137,13 @@ export default function CampusMap({
       <MapContainer
         center={[8.563532, 76.88798]}
         zoom={17}
+        maxZoom={19}
         style={{ width: "100%", height: "100%" }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; OpenStreetMap contributors"
+          maxZoom={19}
         />
 
         {/* Flies to user location inside MapContainer where useMap() works */}
