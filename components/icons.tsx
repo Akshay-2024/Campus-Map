@@ -7,6 +7,7 @@ import {
   DoorOpen,
   Car,
   Hospital,
+  TreePine,
 } from "lucide-react";
 
 export const categoryIcons = {
@@ -18,4 +19,8 @@ export const categoryIcons = {
   Gate: DoorOpen,
   Parking: Car,
   Hospital: Hospital,
+  Service: UtensilsCrossed,
+  Building: DoorOpen,
+  Park: TreePine,
+  Others: UtensilsCrossed,
 };

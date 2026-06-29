@@ -9,6 +9,8 @@ import {
   MapPin,
   Building,
   HeartPulse,
+  Printer,
+  TreePine,
 } from "lucide-react";
 
 function createIcon(
@@ -61,6 +63,14 @@ export function getMarkerIcon(category: string) {
     
     case "Building":
       return createIcon(Building, "#b8b803");
+
+    case "Service":
+      return createIcon(Printer, "#000000");
+
+    case "Park":
+      return createIcon(TreePine, "#22c55e");
+
+    
 
     default:
       return createIcon(MapPin, "#6b7280");
