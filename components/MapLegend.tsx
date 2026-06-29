@@ -27,6 +27,12 @@ export default function MapLegend() {
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>🚌 Transport</div>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>🛏 Hostel</div>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>🍴 Food</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>🛏 Hospital</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>🍴 Gate</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>🛏 Building</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>🍴 Service</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>🛏 Park</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>🍴 Others</div>
     </div>
   );
 }
